@@ -1,0 +1,101 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>The HTML5 Herald</title>
+    <link href="./vendor/literallycanvas/css/literallycanvas.css" rel="stylesheet">
+    <style type="text/css">
+      .lc-container {
+        width: 320px;
+        height: 400px;
+        margin: auto;
+      }
+      .literally {
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
+      .translated-img {
+        width: 256px;
+        height: 256px;
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <button class="translate-button">Translate</button>
+    <div class="lc-container">
+      <div id="lc"></div>
+    </div>
+    <img class="translated-img">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react.min.js"></script>
+    <script src="./vendor/literallycanvas/literallycanvas.js"></script>
+    <script>
+      $(() => {
+        const HOST = 'http://localhost:8000';
+        const MODEL = 'flower1';
+        const SIZE = 256;
+
+        LC.init(document.getElementById('lc'), {
+          imageURLPrefix: './vendor/literallycanvas/img',
+          imageSize: {width: SIZE, height: SIZE},
+          primaryColor: '#00ff00',
+          backgroundColor: '#0000ff',
+        });
+
+        function base64_to_bin(base64) {
+          const charas = atob(base64)
+          const bin = new Uint8Array(charas.length)
+          _.each(charas, (c, i) => {
+            bin[i] = charas.charCodeAt(i);
+          })
+          return bin
+        }
+
+        function bin_to_base64(bin) {
+          const charas = _.map(bin, (b, i) => {
+            return String.fromCharCode(bin[i])
+          }).join('');
+          return btoa(charas)
+        }
+
+        function toBinDataUrlWithCrop(canvas, x, y, w, h){
+          // create a temporary canvas sized to the cropped size
+          var tmp_canvas = document.createElement('canvas');
+          var ctx = tmp_canvas.getContext('2d');
+          tmp_canvas.width = w;
+          tmp_canvas.height = h;
+          ctx.drawImage(canvas, x, y, w, h, 0, 0, w, h);
+          const base64 = tmp_canvas.toDataURL('image/png').replace(/^data:image\/png;base64,/, '')
+          return base64_to_bin(base64);
+        }
+
+        $('.translate-button').click(() => {
+          const $canvas = $('.lc-container canvas');
+          const x = ($canvas.width() - SIZE) / 2;
+          const y = ($canvas.height() - SIZE) / 2;
+          const canvasData = toBinDataUrlWithCrop($canvas[0], x, y, SIZE, SIZE);
+
+          // use xhr for binary data
+          var xhr = new XMLHttpRequest();
+          xhr.responseType = 'arraybuffer';
+          xhr.onreadystatechange = () => {
+            if (xhr.readyState == 4) {
+              if (xhr.status == 200) {
+                const bin = new Uint8Array(xhr.response)
+                const base64 = bin_to_base64(bin);
+                const output = new Image();
+                const dataUrl = `data:image/png;base64,${base64}`;
+                const img = $('.translated-img').attr('src', dataUrl);
+              }
+            }
+          }
+          xhr.open('post', HOST + '/' + MODEL, true);
+          xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+          xhr.send(canvasData);
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,10 @@
+# General
+*.DS_Store
+.AppleDouble
+.LSOverride
+
+/pix2pix-tensorflow
+/fast-style-transfer
+
+/pix2pix_train_data
+/pix2pix_train_result
