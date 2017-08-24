@@ -132,5 +132,6 @@ python pix2pix-tensorflow/server/tools/process-remote.py \
 
 上記のサーバが起動している状態で[./static/index.html](./static/index.html)を開く。
 
+描画して"Flowerize"ボタンを押すと、変換サーバに変換元画像が送信され、変換サーバから返された画像を表示する。
 
 

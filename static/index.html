@@ -2,47 +2,114 @@
   <head>
     <meta charset="utf-8">
     <title>The HTML5 Herald</title>
-    <link href="./vendor/literallycanvas/css/literallycanvas.css" rel="stylesheet">
+    <!-- <link href="./vendor/wPaint/wPaint.min.css" rel="stylesheet"> -->
     <style type="text/css">
-      .lc-container {
-        width: 320px;
-        height: 400px;
-        margin: auto;
-      }
-      .literally {
-        width: 100%;
-        height: 100%;
+      #wpaint {
         position: relative;
-      }
-      .translated-img {
         width: 256px;
         height: 256px;
-        background-color: red;
+        background-color: #7a7a7a;
+      }
+      .container {
+        width: 80%;
+        margin: 70px auto auto auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+      }
+      .translated-img {
+        border: 1px solid;
+        width: 256px;
+        height: 256px;
+      }
+      .translate-button {
+        margin-top: 90px;
+        height: 50px;
+        font-size: 30px;
+        /*font-weight: bold;*/
+      }
+      .wPaint-menu-icon-name-ellipse,
+      .wPaint-menu-icon-name-rectangle,
+      .wPaint-menu-icon-name-text,
+      .wPaint-menu-icon-name-line,
+      .wPaint-menu-icon-name-save,
+      .wPaint-menu-icon-name-loadBg,
+      .wPaint-menu-icon-name-eraser {
+        display: none !important;
       }
     </style>
   </head>
   <body>
-    <button class="translate-button">Translate</button>
-    <div class="lc-container">
-      <div id="lc"></div>
+
+    <div class="container">
+      <div class="item">
+        <div id="wpaint" style=""></div>
+        <center id="wpaint-img"></center>
+      </div>
+      <div class="item">
+        <button class="translate-button">Flowerize</button>
+      </div>
+      <div class="item">
+        <img class="translated-img">
+      </div>
     </div>
-    <img class="translated-img">
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react.min.js"></script>
-    <script src="./vendor/literallycanvas/literallycanvas.js"></script>
+
+    <!-- jQuery UI -->
+    <script type="text/javascript" src="./vendor/wPaint/lib/jquery.ui.core.1.10.3.min.js"></script>
+    <script type="text/javascript" src="./vendor/wPaint/lib/jquery.ui.widget.1.10.3.min.js"></script>
+    <script type="text/javascript" src="./vendor/wPaint/lib/jquery.ui.mouse.1.10.3.min.js"></script>
+    <script type="text/javascript" src="./vendor/wPaint/lib/jquery.ui.draggable.1.10.3.min.js"></script>
+    
+    <!-- wColorPicker -->
+    <link rel="Stylesheet" type="text/css" href="./vendor/wPaint/lib/wColorPicker.min.css" />
+    <script type="text/javascript" src="./vendor/wPaint/lib/wColorPicker.min.js"></script>
+
+    <!-- wPaint -->
+    <link rel="Stylesheet" type="text/css" href="./vendor/wPaint/wPaint.min.css" />
+    <script type="text/javascript" src="./vendor/wPaint/wPaint.min.js"></script>
+    <script type="text/javascript" src="./vendor/wPaint/plugins/main/wPaint.menu.main.min.js"></script>
+    <script type="text/javascript" src="./vendor/wPaint/plugins/text/wPaint.menu.text.min.js"></script>
+    <script type="text/javascript" src="./vendor/wPaint/plugins/shapes/wPaint.menu.main.shapes.min.js"></script>
+    <script type="text/javascript" src="./vendor/wPaint/plugins/file/wPaint.menu.main.file.min.js"></script>
+
     <script>
       $(() => {
         const HOST = 'http://localhost:8000';
         const MODEL = 'flower1';
         const SIZE = 256;
 
-        LC.init(document.getElementById('lc'), {
-          imageURLPrefix: './vendor/literallycanvas/img',
-          imageSize: {width: SIZE, height: SIZE},
-          primaryColor: '#00ff00',
-          backgroundColor: '#0000ff',
+        $.fn.wPaint.extend({
+          clear: () => {
+            clearCanvas();
+          },
         });
+
+        $('#wpaint').wPaint({
+          menuOffsetLeft: -70,
+          menuOffsetTop: -50,
+          lineWidth: 5,
+          menuOrientation: 'vertical',
+          fillStyle: '#00ff00',
+          strokeStyle: '#00ff00',
+          path: './vendor/wPaint/',
+        });
+
+        setTimeout(() => {
+          clearCanvas();
+        }, 300);
+
+        function clearCanvas() {
+          const canvas = $('#wpaint .wPaint-canvas')[0];
+          const ctx = canvas.getContext('2d');
+          const old = ctx.fillStyle;
+          ctx.fillStyle = 'blue';
+          ctx.fillRect(0, 0, SIZE, SIZE);
+          ctx.fillStyle = old;
+        }
 
         function base64_to_bin(base64) {
           const charas = atob(base64)
@@ -60,8 +127,8 @@
           return btoa(charas)
         }
 
-        function toBinDataUrlWithCrop(canvas, x, y, w, h){
-          // create a temporary canvas sized to the cropped size
+        function toBinDataUrlWithCrop(canvas, x, y, w, h) {
+          // temporary canvas for crop
           var tmp_canvas = document.createElement('canvas');
           var ctx = tmp_canvas.getContext('2d');
           tmp_canvas.width = w;
@@ -72,10 +139,8 @@
         }
 
         $('.translate-button').click(() => {
-          const $canvas = $('.lc-container canvas');
-          const x = ($canvas.width() - SIZE) / 2;
-          const y = ($canvas.height() - SIZE) / 2;
-          const canvasData = toBinDataUrlWithCrop($canvas[0], x, y, SIZE, SIZE);
+          const $canvas = $('#wpaint .wPaint-canvas');
+          const canvasData = toBinDataUrlWithCrop($canvas[0], 0, 0, SIZE, SIZE);
 
           // use xhr for binary data
           var xhr = new XMLHttpRequest();
