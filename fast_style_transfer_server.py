@@ -69,7 +69,7 @@ class Handler(BaseHTTPRequestHandler):
         return
 
 def run(port):
-    server_address = ('127.0.0.1', port)
+    server_address = ('', port)
     httpd = HTTPServer(server_address, Handler)
     httpd.serve_forever()
     print('httpd running...')

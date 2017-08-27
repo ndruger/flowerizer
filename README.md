@@ -6,6 +6,10 @@
 
 https://docs.google.com/presentation/d/12G-u34cV8wHiHO1tFXVf4bjAxyhQ3kSvUquW3X8aSO8/edit?usp=sharing
 
+## デモページ
+
+http://flowerize.s3-website-ap-northeast-1.amazonaws.com/
+
 ## 動作確認環境
 
 - Mac mini(Late 2014) macOS sierra
@@ -16,7 +20,7 @@ https://docs.google.com/presentation/d/12G-u34cV8wHiHO1tFXVf4bjAxyhQ3kSvUquW3X8a
 - OpenCV
 - pip 
   - numpy scipy pydot keras matplotlib h5py tensorflow pillow
-  - バージョンは[./pip_list.txt](./pip_list.txt)を参照。
+  - バージョンは[./requirements.txt](./requirements.txt)を参照。
 
 ## pix2pixによる変換のブラウザでの表示まで
 
