@@ -17,12 +17,13 @@
 ### 1. 準備
 
 ```
-setup.sh # 利用するpix2pix-tensorflowとfast-style-transferのcloneとフォルダを作成をする。
+# 利用するpix2pix-tensorflowとfast-style-transferのcloneとフォルダを作成をする。
+setup.sh
 ```
 
 ### 2. 学習用のデータを取得する
 
-(102 Category Flower Dataset)[http://www.robots.ox.ac.uk/~vgg/data/flowers/102/]のDownload Dataset images("102flowers.tgz)", Image segmentations("102segmentations.tgz") and The image labels("imagelabels.mat")をダウンロードして`./pix2pix_train_data/orig/`以下に展開する。
+[102 Category Flower Dataset](http://www.robots.ox.ac.uk/~vgg/data/flowers/102/)のDataset images("102flowers.tgz)", Image segmentations("102segmentations.tgz") and The image labels("imagelabels.mat")をダウンロードして`./pix2pix_train_data/orig/`以下に展開する。
 
 ```
 imagelabels.mat
@@ -75,7 +76,7 @@ python pix2pix-tensorflow/pix2pix.py \
 {tensorflowを入れた場所}/tensorboard --logdir=./pix2pix_train_result
 ```
 
-tensorboardの`SCALARS`や`IMAGES`を見て、求めている変換ができてそうだとという確信が得られたら、Ctrl-cで学習を止めていい。5000stepごとにmodelは自動保存されている。レジューム等の方法はpix2pix.pyのオプションを参照。
+tensorboardの`SCALARS`や`IMAGES`を見て、求めている変換ができてそうならば、Ctrl-cで学習を止めていい。5000stepごとにmodelは自動保存されている。レジューム等の方法はpix2pix.pyのオプションを参照。
 
 ### 5. 学習経過の画像を確認する(オプショナル)
 
@@ -124,6 +125,9 @@ python pix2pix-tensorflow/server/tools/process-local.py \
   --input_file ./pix2pix_train_data/val/image_00441.png \
   --output_file ./output.png
 ```
+
+output.png
+![output.png](./imgs_for_doc/output.png)
 
 ### 9. 変換用のサーバーを動作させてクライアントから変換リクエストをする
 
