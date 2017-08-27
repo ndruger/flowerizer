@@ -9,6 +9,7 @@ import socketserver
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--model_file', required=True)
+parser.add_argument('--port', default=8080, type=int)
 args = parser.parse_args()
 
 img_shape = (256, 256, 3)
@@ -59,7 +60,6 @@ class Handler(BaseHTTPRequestHandler):
         print("post!!")
         data_string = self.rfile.read(int(self.headers['Content-Length']))
         bgr_img = cv2.imdecode(np.fromstring(data_string, dtype=np.uint8), 1)
-        # import pdb; pdb.set_trace()
         translated = translate(bgr_img)
         self.send_response(200)
         self.send_header('Content-type', 'image/png')
@@ -68,11 +68,11 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(cv2.imencode('.png', translated)[1].tostring())
         return
 
-def run(port=8080):
+def run(port):
     server_address = ('127.0.0.1', port)
     httpd = HTTPServer(server_address, Handler)
     httpd.serve_forever()
     print('httpd running...')
     sys.stdout.flush()
 
-run()
+run(args.port)
