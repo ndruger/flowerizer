@@ -12,6 +12,10 @@ cd ..
 mkdir -p pix2pix_train_data/orig
 mkdir -p pix2pix_train_result
 mkdir -p pix2pix_models
+mkdir -p fast_style_transfer_train_result
+mkdir -p fast_style_transfer_train_test_result
+mkdir -p fast_style_transfer_test_result
+
 
 cd pix2pix_train_data/orig/
 # wget http://www.robots.ox.ac.uk/~vgg/data/flowers/102/102flowers.tgz
