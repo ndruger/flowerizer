@@ -1,6 +1,6 @@
 # Flowerizer
 
-DeepLearningを利用して簡単に花の絵を描くツール。
+DeepLearningを利用したWebサービスのサンプルとして、簡単に花の絵を描くツール。
 
 ![ブラウザ](./imgs_for_doc/browser.png)
 
@@ -11,6 +11,8 @@ https://www.slideshare.net/secret/9IJXUiFViMWdac
 ## デモページ
 
 http://flowerize.s3-website-ap-northeast-1.amazonaws.com/
+
+絵を書いて、「Flowerize」を押しと花に変換し、さらに「Goghize」を押すと画風が変わる。
 
 ## 動作確認環境
 
