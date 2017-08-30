@@ -1,5 +1,7 @@
 # Flowerizer
 
+DeepLearningを利用して簡単に花の絵を描くツール。
+
 ![ブラウザ](./imgs_for_doc/browser.png)
 
 ## 発表
