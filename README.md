@@ -6,7 +6,7 @@ DeepLearningを利用したWebサービスのサンプルとして、簡単に�
 
 ## 発表
 
-https://www.slideshare.net/secret/9IJXUiFViMWdac
+https://www.slideshare.net/ndruger/deep-learningweb
 
 ## デモページ
 
