@@ -4,7 +4,7 @@
 
 ## 発表
 
-https://docs.google.com/presentation/d/12G-u34cV8wHiHO1tFXVf4bjAxyhQ3kSvUquW3X8aSO8/edit?usp=sharing
+https://www.slideshare.net/secret/9IJXUiFViMWdac
 
 ## デモページ
 
