@@ -4,6 +4,8 @@ DeepLearningを利用したWebサービスのサンプルとして、簡単に�
 
 ![ブラウザ](./imgs_for_doc/browser.png)
 
+![使い方](./imgs_for_doc/browser.gif)
+
 ## 発表
 
 https://www.slideshare.net/ndruger/deep-learningweb
