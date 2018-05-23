@@ -10,12 +10,6 @@ DeepLearningを利用したWebサービスのサンプルとして、簡単に�
 
 https://www.slideshare.net/ndruger/deep-learningweb
 
-## デモページ
-
-http://flowerize.s3-website-ap-northeast-1.amazonaws.com/
-
-絵を書いて、「Flowerize」を押しと花に変換し、さらに「Goghize」を押すと画風が変わる。
-
 ## 動作確認環境
 
 - Mac mini(Late 2014) macOS sierra
